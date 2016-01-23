@@ -1,0 +1,72 @@
+﻿using MyApplication.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.WebPages.Html;
+using WebGrease.Css.Extensions;
+
+namespace MyApplication.ViewModel
+{
+    public class UserViewModel
+    {
+        [Required]
+        [Display(Name = "Salutation")]
+        public int SalutationId { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Create Username")]
+        [RegularExpression("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", ErrorMessage = "Invalid Email Format")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Date Of Birth")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? DateOfBirth { get; set; }
+
+        [Required]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string RoleId { get; set; }
+
+        public string Role { get; set; }
+
+        public IEnumerable<Salutation> Salutations { get; set; }
+        public IEnumerable<SelectListItem> AllSalutations
+        {
+            get
+            {
+                var items = new List<SelectListItem>();
+                Salutations.ForEach(x => items.Add(new SelectListItem { Text = x.Name, Value = x.Id.ToString() }));
+                return items;
+            }
+        }
+
+        public IEnumerable<ApplicationRole> UserRoles { get; set; }
+
+        public IEnumerable<SelectListItem> AllRoles
+        {
+            get
+            {
+                var items = new List<SelectListItem>();
+                UserRoles.ForEach(x => items.Add(new SelectListItem { Text = x.Name, Value = x.Id }));
+                return items;
+            }
+        }
+    }
+}
